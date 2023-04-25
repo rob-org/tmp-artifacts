@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  upload:
     runs-on: ubuntu-latest
     steps:
       - run: echo "hello world" > hello.txt
@@ -12,3 +12,10 @@ jobs:
         with:
           name: foobar
           path: hello.txt
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: foobar
+      - run: cat hello.txt
