@@ -4,27 +4,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  upload:
+  bench-upload:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello world" > hello.txt
+      - uses: actions/setup-node@v3
+      - run: |
+          npm i react react-dom react-script create-react-app
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
-          path: hello.txt
-  upload-again:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "foo bar" > foobar.txt
-      - uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: foobar.txt
+          name: nodemodules
+          path: node_modules
   download:
-    needs: [upload, upload-again]
+    needs: [bench-upload]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: my-artifact
+          name: nodemodules
+          path: node_modules
       - run: ls
