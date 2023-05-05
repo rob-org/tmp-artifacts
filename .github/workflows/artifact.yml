@@ -10,13 +10,21 @@ jobs:
       - run: echo "hello world" > hello.txt
       - uses: actions/upload-artifact@v3
         with:
-          name: foobar
+          name: my-artifact
           path: hello.txt
+  upload-again:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "foo bar" > foobar.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: foobar.txt
   download:
-    needs: upload
+    needs: [upload, upload-again]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: foobar
-      - run: cat hello.txt
+          name: my-artifact
+      - run: ls
