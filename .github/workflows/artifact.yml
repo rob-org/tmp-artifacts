@@ -9,17 +9,27 @@ jobs:
     steps:
       - uses: actions/setup-node@v3
       - run: |
-          npm i react react-dom react-script create-react-app
+          npm i react react-dom react-script create-react-app webpack
       - uses: actions/upload-artifact@v3
         with:
-          name: nodemodules
+          name: node_modules
           path: node_modules
+      - run: |
+          zip -r node_modules.zip node_modules
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node_modules-zip
+          path: node_modules.zip
   download:
     needs: [bench-upload]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: nodemodules
+          name: node_modules
           path: node_modules
-      - run: ls
+      - uses: actions/download-artifact@v3
+        with:
+          name: node_modules-zip
+          path: node_modules-zip
+      - run: ls out
