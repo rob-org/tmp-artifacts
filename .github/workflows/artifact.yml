@@ -10,13 +10,13 @@ jobs:
       - uses: actions/setup-node@v3
       - run: |
           npm i react react-dom react-script create-react-app webpack
-      - uses: actions/upload-artifact@v3
-        name: "Upload Node Modules v3"
-        with:
-          name: node_modules-v3
-          path: node_modules
       - uses: actions/upload-artifact@v4-beta
         name: "Upload Node Modules v4"
+        with:
+          name: node_modules-v4
+          path: node_modules
+      - uses: actions/upload-artifact@v3
+        name: "Upload Node Modules v3"
         with:
           name: node_modules-v4
           path: node_modules
@@ -24,14 +24,14 @@ jobs:
     needs: [bench-upload]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
-        name: "Download Node Modules v3"
-        with:
-          name: node_modules-v3
-          path: node_modules-v3
       - uses: actions/download-artifact@v4-beta
         name: "Download Node Modules v4"
         with:
           name: node_modules-v4
           path: node_modules-v4
+      - uses: actions/download-artifact@v3
+        name: "Download Node Modules v3"
+        with:
+          name: node_modules-v3
+          path: node_modules-v3
       - run: ls
