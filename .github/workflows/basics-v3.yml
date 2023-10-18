@@ -1,0 +1,83 @@
+name: artifact-basics-v3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-artifacts:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # note that arm/arm64 are self hosted runners
+        os: [ubuntu-latest] # [ubuntu-latest, windows-latest, macos-latest, arm, arm64]
+    name: artifact upload on ${{ matrix.os }}
+    steps:
+        - uses: actions/checkout@v3
+        - run: |
+            mkdir artifact-path
+            echo "foo" > artifact-path/hello.txt
+            echo "hello there" > artifact-path/world.txt
+
+        - uses: actions/upload-artifact@v3
+          with:
+            name: my-artifact-${{ matrix.os }}
+            path: artifact-path/*
+
+        - run: |
+            echo "hello, world" > my-artifact.txt
+
+        - uses: actions/upload-artifact@v3
+          with:
+            name: another-artifact-${{ matrix.os }}
+            path: my-artifact.txt
+            
+  download-single-artifact:
+    needs: upload-artifacts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: single artifact download on ${{ matrix.os }}
+    steps:
+        - uses: actions/download-artifact@v3
+          with:
+            name: my-artifact-${{ matrix.os }}
+            path: artifact-path
+
+        - name: Fail if artifact not downloaded
+          run: |
+            ls -al
+            ls -al artifact-path/my-artifact-${{ matrix.os }}
+            if [ $(cat artifact-path/my-artifact-${{ matrix.os }}/hello.txt) == "foo" ]
+            then 
+              echo "Artifact Download succeeded for first file"
+            else 
+              echo "Download artifact failed for the first file"
+              echo $(cat artifact-path/my-artifact-${{ matrix.os }}/hello.txt)
+              exit 1
+            fi
+            if [ "$(cat artifact-path/my-artifact-${{ matrix.os }}/world.txt)" == "hello there" ]
+            then 
+              echo "Artifact Download succeeded for second file"
+            else 
+              echo "Download artifact failed for the second file"
+              echo $(cat artifact-path/my-artifact-${{ matrix.os }}/world.txt)
+              exit 1
+            fi
+
+  download-all-artifacts:
+    needs: upload-artifacts
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: download all artifacts from ${{ matrix.os }}
+    steps:
+      - uses: actions/download-artifact@v3
+
+      - name: Fail if artifacts not downloaded
+        run: |
+          ls -al
+          if [ -f "another-artifact-${{ matrix.os }}/my-artifact.txt" ]; then echo "my-artifact.txt successfully downloaded"; else echo "my-artifact.txt not downloaded"; exit 1; fi
+          if [ -f "my-artifact-${{ matrix.os }}/hello.txt" ]; then echo "hello.txt successfully downloaded"; else echo "hello.txt not downloaded"; exit 1; fi
+          if [ -f "my-artifact-${{ matrix.os }}/world.txt" ]; then echo "world.txt successfully downloaded"; else echo "world.txt not downloaded"; exit 1; fi
