@@ -16,7 +16,7 @@ jobs:
           name: node_modules-v4
           path: node_modules
       - uses: actions/upload-artifact@v3
-        name: "Upload Node Modules v3"
+        name: "Upload Node Modules v4"
         with:
           name: node_modules-v3
           path: node_modules
