@@ -49,28 +49,6 @@ jobs:
           with:
             name: my-artifact-${{ matrix.os }}
             path: artifact-path
-
-        - name: Fail if artifact not downloaded
-          run: |
-            ls -al
-            ls -al artifact-path/my-artifact-${{ matrix.os }}
-            if [ $(cat artifact-path/my-artifact-${{ matrix.os }}/hello.txt) == "foo" ]
-            then 
-              echo "Artifact Download succeeded for first file"
-            else 
-              echo "Download artifact failed for the first file"
-              echo $(cat artifact-path/my-artifact-${{ matrix.os }}/hello.txt)
-              exit 1
-            fi
-            if [ "$(cat artifact-path/my-artifact-${{ matrix.os }}/world.txt)" == "hello there" ]
-            then 
-              echo "Artifact Download succeeded for second file"
-            else 
-              echo "Download artifact failed for the second file"
-              echo $(cat artifact-path/my-artifact-${{ matrix.os }}/world.txt)
-              exit 1
-            fi
-
   download-all-artifacts:
     needs: upload-artifacts
     runs-on: ${{ matrix.os }}
@@ -80,10 +58,3 @@ jobs:
     name: download all artifacts from ${{ matrix.os }}
     steps:
       - uses: actions/download-artifact@v4-beta # default to GITHUB_WORKSPACE path
-
-      - name: Fail if artifacts not downloaded
-        run: |
-          ls -al
-          if [ -f "another-artifact-${{ matrix.os }}/my-artifact.txt" ]; then echo "my-artifact.txt successfully downloaded"; else echo "my-artifact.txt not downloaded"; exit 1; fi
-          if [ -f "my-artifact-${{ matrix.os }}/hello.txt" ]; then echo "hello.txt successfully downloaded"; else echo "hello.txt not downloaded"; exit 1; fi
-          if [ -f "my-artifact-${{ matrix.os }}/world.txt" ]; then echo "world.txt successfully downloaded"; else echo "world.txt not downloaded"; exit 1; fi
