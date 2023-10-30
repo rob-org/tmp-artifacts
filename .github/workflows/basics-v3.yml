@@ -39,16 +39,16 @@ jobs:
         os: [ubuntu-latest]
     name: single artifact download on ${{ matrix.os }}
     steps:
-        - uses: actions/download-artifact@v3
-          with:
-            name: my-artifact-${{ matrix.os }}
-            path: artifact-path
         - name: check attempt
           run: |
             echo $GITHUB_RUN_ATTEMPT
             if [ "$GITHUB_RUN_ATTEMPT" -eq 2 ]; then
               exit 1
             fi
+        - uses: actions/download-artifact@v3
+          with:
+            name: my-artifact-${{ matrix.os }}
+            path: artifact-path
         - name: Fail if artifact not downloaded
           run: |
             ls -al
