@@ -43,7 +43,12 @@ jobs:
           with:
             name: my-artifact-${{ matrix.os }}
             path: artifact-path
-
+        - name: check attempt
+          run: |
+            echo $GITHUB_RUN_ATTEMPT
+            if [ "$GITHUB_RUN_ATTEMPT" -eq 2 ]; then
+              exit 1
+            fi
         - name: Fail if artifact not downloaded
           run: |
             ls -al
