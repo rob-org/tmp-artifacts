@@ -20,7 +20,7 @@ jobs:
         with:
           name: node_modules-v3
           path: node_modules
-      - uses: actions/download-artifact@v4-beta
+      - uses: actions/download-artifact@patch-zip-lib
         name: "Download Node Modules v4"
         with:
           name: node_modules-v4
@@ -45,7 +45,7 @@ jobs:
         with:
           name: 1gb-v3
           path: 1gb-random
-      - uses: actions/download-artifact@v4-beta
+      - uses: actions/download-artifact@patch-zip-lib
         name: "Download 1GB v4"
         with:
           name: 1gb-v4
