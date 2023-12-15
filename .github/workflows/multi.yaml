@@ -1,0 +1,29 @@
+name: Multi Upload, Single Download
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+    - name: Create a File
+      run: echo "hello from ${{ matrix.runs-on }}" > hello-${{ matrix.runs-on }}.txt
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: my-artifact-${{ matrix.runs-on }}
+        path: hello-${{ matrix.runs-on }}.txt
+  download-all:
+    needs: upload
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download All Artifacts
+      uses: actions/download-artifact@robherley/glob-downloads
+      with:
+        pattern: my-artifact-*
+        path: my-artifact
+        merge-multiple: true
+    - run: ls -laR my-artifact
