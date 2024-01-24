@@ -28,7 +28,7 @@ jobs:
 
         - uses: actions/upload-artifact@v4
           with:
-            name: another-artifact-${{ matrix.os }}
+            name: another-artifact-with-%-${{ matrix.os }}
             path: my-artifact.txt
             
   download-single-artifact:
