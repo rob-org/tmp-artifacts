@@ -40,6 +40,7 @@ jobs:
         with:
           name: 1gb-v4
           path: 1gb-random
+          compression-level: 0
       - uses: actions/upload-artifact@v3
         name: "Upload 1GB - v3"
         with:
