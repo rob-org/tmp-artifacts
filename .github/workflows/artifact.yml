@@ -20,7 +20,7 @@ jobs:
         with:
           name: node_modules-v3
           path: node_modules
-      - uses: srryan/download-artifact@main
+      - uses: actions/download-artifact@v4
         name: "Download Node Modules - v4"
         with:
           name: node_modules-v4
