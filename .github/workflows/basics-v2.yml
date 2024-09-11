@@ -1,4 +1,4 @@
-name: artifact-basics-v3
+name: artifact-basics-v2
 
 on:
   workflow_dispatch:
