@@ -26,6 +26,7 @@ jobs:
         echo "Hello world from file #2" > path/to/dir-2/file2.txt
         echo "Hello from a symlinked file" > symlink/original.txt
         ln -s $(pwd)/symlink/original.txt symlink/file.txt
+      shell: bash
 
     # Upload a symlinked file
     - name: 'Upload symlinked artifact'
