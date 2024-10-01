@@ -21,14 +21,11 @@ jobs:
         mkdir -p path/to/dir-1
         mkdir -p path/to/dir-2
         mkdir -p path/to/dir-3
-        mkdir -p original/
         mkdir -p symlink/
         echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
         echo "Hello world from file #2" > path/to/dir-2/file2.txt
-        echo "Hello from a symlinked file" > original/file.txt
-        ln -s original/file.txt symlink/file.txt
-        ls -la
-        ls -la symlink/
+        echo "Hello from a symlinked file" > symlink/original.txt
+        ln -s $(pwd)/original/file.txt symlink/file.txt
 
     # Upload a symlinked file
     - name: 'Upload symlinked artifact'
