@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@robherley/v4.4.2
       with:
         name: 'Symlinked-Artifact-${{ matrix.runs-on }}'
-        path: symlink/file.txt
+        path: "symlink/(abs|rel).txt"
 
     - name: 'Download symlinked artifact'
       uses: actions/download-artifact@v4
