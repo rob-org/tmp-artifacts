@@ -25,7 +25,8 @@ jobs:
         echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
         echo "Hello world from file #2" > path/to/dir-2/file2.txt
         echo "Hello from a symlinked file" > symlink/original.txt
-        ln -s $(pwd)/symlink/original.txt symlink/file.txt
+        ln -s $(pwd)/symlink/original.txt symlink/abs.txt
+        ln -s original.txt symlink/rel.txt
       shell: bash
 
     # Upload a symlinked file
@@ -43,12 +44,21 @@ jobs:
 
     - name: 'Verify symlinked artifact'
       run: |
-        $file = "from/symlink/file.txt"
-        if(!(Test-Path -path $file))
+        $abs = "from/symlink/abs.txt"
+        if(!(Test-Path -path $abs))
         {
             Write-Error "Expected file does not exist"
         }
-        if(!((Get-Content $file) -ceq "Hello from a symlinked file"))
+        if(!((Get-Content $abs) -ceq "Hello from a symlinked file"))
+        {
+            Write-Error "File contents of downloaded artifact are incorrect"
+        }
+        $rel = "from/symlink/rel.txt"
+        if(!(Test-Path -path $rel))
+        {
+            Write-Error "Expected file does not exist"
+        }
+        if(!((Get-Content $rel) -ceq "Hello from a symlinked file"))
         {
             Write-Error "File contents of downloaded artifact are incorrect"
         }
