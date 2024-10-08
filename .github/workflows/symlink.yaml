@@ -30,7 +30,7 @@ jobs:
 
     # Upload a symlinked file
     - name: 'Upload symlinked artifact'
-      uses: actions/upload-artifact@robherley/testing-artifact-2.1.10
+      uses: actions/upload-artifact@robherley/v4.4.2
       with:
         name: 'Symlinked-Artifact-${{ matrix.runs-on }}'
         path: symlink/file.txt
