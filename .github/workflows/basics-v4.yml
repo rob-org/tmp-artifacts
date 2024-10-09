@@ -8,8 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # note that arm/arm64 are self hosted runners
-        os: [ubuntu-latest] # [ubuntu-latest, windows-latest, macos-latest, arm, arm64]
+        os: [self-hosted] # [ubuntu-latest, windows-latest, macos-latest, arm, arm64]
     name: artifact upload on ${{ matrix.os }}
     steps:
         - uses: actions/checkout@v3
@@ -18,7 +17,7 @@ jobs:
             echo "foo" > artifact-path/hello.txt
             echo "hello there" > artifact-path/world.txt
 
-        - uses: actions/upload-artifact@tmp-4.3.5-rc0
+        - uses: actions/upload-artifact@v4.4.2
           with:
             name: my-artifact-${{ matrix.os }}
             path: artifact-path/*
@@ -26,7 +25,7 @@ jobs:
         - run: |
             echo "hello, world" > my-artifact.txt
 
-        - uses: actions/upload-artifact@tmp-4.3.5-rc0
+        - uses: actions/upload-artifact@v4.4.2
           with:
             name: another-artifact-with-#-${{ matrix.os }}
             path: my-artifact.txt
