@@ -17,31 +17,11 @@ jobs:
             echo "foo" > artifact-path/hello.txt
             echo "hello there" > artifact-path/world.txt
 
-        - uses: actions/upload-artifact@v4.4.2
+        - uses: actions/upload-artifact@v4
           with:
             name: my-artifact-${{ matrix.os }}
             path: artifact-path/*
 
-        - run: |
-            echo "hello, world" > my-artifact.txt
-
-        - uses: actions/upload-artifact@v4.4.2
-          with:
-            name: another-artifact-with-#-${{ matrix.os }}
-            path: my-artifact.txt
-            
-  download-single-artifact:
-    needs: upload-artifacts
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    name: single artifact download on ${{ matrix.os }}
-    steps:
-        - uses: actions/download-artifact@v4
-          with:
-            name: my-artifact-${{ matrix.os }}
-            path: artifact-path
   download-all-artifacts:
     needs: upload-artifacts
     runs-on: ${{ matrix.os }}
