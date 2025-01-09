@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v4
       - run: |
           npm i react react-dom react-script create-react-app webpack
-      - uses: actions/upload-artifact@tmp-4.3.5-rc0
+      - uses: actions/upload-artifact@v4
         name: "Upload Node Modules - v4"
         with:
           name: node_modules-v4
@@ -35,7 +35,7 @@ jobs:
     steps:
       - run: |
           dd if=/dev/urandom of=1gb-random bs=1M count=1000
-      - uses: actions/upload-artifact@tmp-4.3.5-rc0
+      - uses: actions/upload-artifact@v4
         name: "Upload 1GB - v4"
         with:
           name: 1gb-v4
