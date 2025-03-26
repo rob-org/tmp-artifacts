@@ -15,21 +15,11 @@ jobs:
         with:
           name: node_modules-v4
           path: node_modules
-      - uses: actions/upload-artifact@v3
-        name: "Upload Node Modules - v3"
-        with:
-          name: node_modules-v3
-          path: node_modules
       - uses: actions/download-artifact@v4
         name: "Download Node Modules - v4"
         with:
           name: node_modules-v4
           path: node_modules-v4
-      - uses: actions/download-artifact@v3
-        name: "Download Node Modules - v3"
-        with:
-          name: node_modules-v3
-          path: node_modules-v3
   big-artifact:
     runs-on: ubuntu-latest
     steps:
@@ -41,18 +31,8 @@ jobs:
           name: 1gb-v4
           path: 1gb-random
           compression-level: 0
-      - uses: actions/upload-artifact@v3
-        name: "Upload 1GB - v3"
-        with:
-          name: 1gb-v3
-          path: 1gb-random
       - uses: actions/download-artifact@v4
         name: "Download 1GB - v4"
         with:
           name: 1gb-v4
           path: 1gb-v4
-      - uses: actions/download-artifact@v3
-        name: "Download 1GB - v3"
-        with:
-          name: 1gb-v3
-          path: 1gb-v3   
